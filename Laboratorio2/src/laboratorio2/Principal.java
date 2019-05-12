@@ -6,7 +6,7 @@ import java.util.Scanner;
  *
  * @author vysery98
  */
-public class Laboratorio2 {
+public class Principal {
 
     public static void main(String[] args) {
 
