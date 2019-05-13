@@ -1,6 +1,7 @@
 package laboratorio2;
 
 import java.util.Scanner;
+import laboratorio2.Variables;
 
 /**
  *
@@ -10,107 +11,113 @@ public class Principal {
 
     public static void main(String[] args) {
 
-        Scanner scan = new Scanner(System.in); // para lectura de datos
+        Scanner scan = new Scanner(System.in); // lectura de datos
 
-        System.out.println("\\_____EJERCICIO 1_____/");
+        Variables.reporte = ""; // salida
 
-        // función a realizar
-        System.out.println("f(x)= 2x^3 + 2x - 7");
+        Variables.reporte = String.format("%s%s\n\n", Variables.reporte, "Repor"
+                + "te Gastos de Padres de familia"); // acumulador de salida
 
-        do {
-            System.out.print(Variables.menu + "\nIngrese una opcion: ");
-            Variables.opt = scan.nextInt();
+        // 1er ciclo while para padres de familia
+        while (Variables.salida == true) {
 
-            switch (Variables.opt) {
+            System.out.println("Datos del padre Nº" + Variables.contador1);
+            System.out.print("\nNombres del padre de familia: ");
+            Variables.nombres = scan.nextLine();
+            System.out.print("Apellidos del padre de familia: ");
+            Variables.apellidos = scan.nextLine();
+            System.out.print("Sueldo semanal: $");
+            Variables.sueldo = scan.nextDouble();
+            System.out.print("¿Cuántos hijos tiene?: ");
+            Variables.numHijos = scan.nextInt();
 
-                case 1: // Solo un Valor
+            Variables.reporte = String.format("%s%s%d\n\nNombre de Padre de fam"
+                    + "ilia: %s %s\nSueldo Semanal: $%.2f \nNúmero de hijos: %d"
+                    + "\n\nReporte de Gastos\nPersona \tPasaje  \tBar\t\tSalida"
+                    + "s\n", Variables.reporte, "Reporte ", Variables.contador1,
+                    Variables.nombres, Variables.apellidos, Variables.sueldo,
+                    Variables.numHijos); // acumulador de salida
 
-                    System.out.println("TABLA DE VALORES");
+            // 2do ciclo while según la cantidad de hijos ingresada
+            while (Variables.contador2 <= Variables.numHijos) {
 
-                    // entrada de datos
-                    System.out.print("Ingrese el número a asignar a 'x'=");
-                    Variables.varInd = scan.nextInt();
+                System.out.println("\nDatos del hijo Nº" + Variables.contador2);
+                System.out.print("Gasto semanal en pasajes: $");
+                Variables.gastoPasajes = scan.nextDouble();
+                System.out.print("Gasto semanal en bares: $");
+                Variables.gastoBar = scan.nextDouble();
+                System.out.print("Gasto semanal en salidas: $");
+                Variables.gastoSalidas = scan.nextDouble();
 
-                    // proceso
-                    Variables.varDep = (2 * Math.pow(Variables.limInf, 3)
-                            + (2 * Variables.limInf) - 7);
+                /* 
+                se calcula el total de gastos en Pasajes, Bar y Salidas para 
+                saber si el sueldo del padre de familia alcanza o le falta.
+                 */
+                Variables.totalPasajes = Variables.totalPasajes
+                        + Variables.gastoPasajes;
+                Variables.totalBar = Variables.totalBar + Variables.gastoBar;
+                Variables.totalSalidas = Variables.totalSalidas
+                        + Variables.gastoSalidas;
 
-                    // salida
-                    System.out.printf("NaN = Not a Number (resultado imposible"
-                            + " de calcular).\nx\t|\tf(x)\n%d\t|\t%.2f\n",
-                            Variables.varInd, Variables.varDep);
+                Variables.reporte = String.format("%sHijo %d: \t%.2f\t\t\t%.2f"
+                        + "\t\t%.2f\n", Variables.reporte, Variables.contador2,
+                        Variables.gastoPasajes, Variables.gastoBar,
+                        Variables.gastoSalidas); // acumulador de salida
 
-                    break;
+                Variables.contador2++;
+                // contador2 = contador2 + 1 (aumento contador)
 
-                case 2: // Más de un valor
-
-                    System.out.println("TABLA DE VALORES");
-
-                    // entrada de datos
-                    System.out.print("Ingrese el número desde el que desea "
-                            + "empezar:");
-                    Variables.limInf = scan.nextInt();
-
-                    System.out.print("Ingrese el número hasta donde calcular "
-                            + "la tabla:");
-                    Variables.limSup = scan.nextInt();
-
-                    // Cálculo del límite para los arreglos tanto de x como de y
-                    if (Variables.limInf == Variables.limSup) {
-
-                        Variables.lim = 1;
-
-                    } else {
-
-                        Variables.lim = Math.abs((Variables.limSup
-                                - Variables.limInf));
-
-                        if (Variables.lim == 0) {
-
-                            Variables.lim = 1;
-
-                        }
-
-                    }
-
-                    // declaración de arreglos
-                    Variables.x = new double[Variables.lim + 1];
-                    Variables.y = new double[Variables.lim + 1]; // f(x)
-
-                    // proceso
-                    for (int i = 0; i <= Variables.lim; i++) {
-
-                        if (Variables.limInf <= Variables.lim) {
-                            Variables.x[i] = (Variables.limInf);
-                        }
-
-                        Variables.y[i] = (2 * Math.pow(Variables.limInf, 3) + (2
-                                * Variables.limInf) - 7);
-                        Variables.limInf++;
-
-                    }
-
-                    // salida
-                    System.out.println("NaN = Not a Number (resultado imposible"
-                            + " de calcular).\nx\t|\tf(x)");
-                    for (int i = 0; i <= Variables.lim; i++) {
-                        System.out.printf("%.0f\t|\t%.2f\n", Variables.x[i],
-                                Variables.y[i]);
-                    }
-
-                    break;
-
-                case 3: // Cerrar
-
-                    Variables.salir = false;
-                    System.out.println("**CERRANDO**");
-                    break;
-
-                default:
-                    System.out.println("Opción inválida.\nf(x)= 2x^3 + 2x - 7");
             }
 
-        } while (Variables.salir);
+            Variables.gastoTotal = Variables.totalPasajes
+                    + Variables.totalBar + Variables.totalSalidas;
+
+            // cálculo del Total
+            Variables.Total = Variables.sueldo - Variables.gastoTotal;
+
+            // mensaje: segun el sueldo -> alcanza o falta dinero semanal
+            if (Variables.Total >= 0) {
+                Variables.factibilidad = "le alcanza el dinero semanal, para su"
+                        + "s gastos";
+            } else {
+                Variables.factibilidad = "le falta el dinero semanal, para sus"
+                        + " gastos";
+            }
+
+            Variables.reporte = String.format("%sTotales \t%.2f\t\t\t%.2f"
+                    + "\t\t%.2f\n", Variables.reporte, Variables.totalPasajes,
+                    Variables.totalBar, Variables.totalSalidas);
+            // acumulador de salida
+
+            Variables.reporte = String.format("%sEl padre de familia %s %s %s\n"
+                    + "\nFin reporte %d\n\n", Variables.reporte, Variables.nombres,
+                    Variables.apellidos, Variables.factibilidad,
+                    Variables.contador1); // acumulador de salida
+
+            Variables.contador1++;
+            // contador1 = contador1 + 1 (aumento contador)
+
+            // reinicio de las variables numéricas para nuevo ingreso de datos
+            Variables.contador2 = 1;
+            Variables.totalPasajes = 0;
+            Variables.totalBar = 0;
+            Variables.totalSalidas = 0;
+            scan.nextLine(); // limpieza del buffer
+            
+            // para continuar ingresando datos o detenerse
+            System.out.println("\n¿Continuar introduciendo datos? (\"n\" para s"
+                    + "alir).");
+            Variables.opc = scan.nextLine();
+
+            if (Variables.opc.equals("n")) {
+                Variables.salida = false;
+            }
+
+        }
+
+        // salida
+        System.out.printf("%s", Variables.reporte);
+
     }
 
 }
